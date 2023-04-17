@@ -1,5 +1,7 @@
 Services
-	- Services.Catalog : 5011			Database : Mogo Db
+	- Services.Catalog		: 5011			Database : Mogo Db
+	- Services.PhotoStock	: 5012			Database : Yok
+	- Services.Basket		: 5013			Database : Redis
 
 
 Identity Server
