@@ -1,7 +1,6 @@
-﻿namespace Services.PhotoStock.Dros
+﻿namespace Services.PhotoStock.Dros;
+
+public class PhotoDto
 {
-    public class PhotoDto
-    {
-        public string Url { get; set; }
-    }
+    public string Url { get; set; }
 }

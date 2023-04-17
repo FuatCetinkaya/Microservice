@@ -25,6 +25,7 @@ namespace IdentityServer
                    {
                       new ApiResource("resource_catalog"){Scopes = {"catalog_fullpermission"}},
                       new ApiResource("resource_photo_stock"){Scopes = {"photo_stock_fullpermission"}},
+                      new ApiResource("resource_basket"){Scopes = {"basket_fullpermission"}},
                       new ApiResource(IdentityServerConstants.LocalApi.ScopeName),
 
                    };
@@ -33,6 +34,7 @@ namespace IdentityServer
             {
                 new ApiScope("catalog_fullpermission","Catalog Api için Full Erişim"),
                 new ApiScope("photo_stock_fullpermission","Photo Stock Api için Full Erişim"),
+                new ApiScope("basket_fullpermission","Basket Api için Full Erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
 
@@ -54,7 +56,8 @@ namespace IdentityServer
                     ClientName = "Asp.Net Core MVC",
                     ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = { 
+                    AllowedScopes = {
+                        "basket_fullpermission",
                         IdentityServerConstants.StandardScopes.Email, 
                         IdentityServerConstants.StandardScopes.OpenId, 
                         IdentityServerConstants.StandardScopes.Profile, 
