@@ -1,4 +1,6 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
 using Services.Catalog.Services;
 using Services.Catalog.Settings;
@@ -28,7 +30,19 @@ namespace Services.Catalog
             builder.Services.AddSingleton<ICourseService, CourseService>();
 
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(opt=>
+            {
+                opt.Filters.Add(new AuthorizeFilter()); // Tüm api'lerin tepesine Authorize yazmamak için
+            });
+
+
+            // Microservisleri Identity Bazlý koruma altýna almak
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.Authority = builder.Configuration["IdentityServerURL"];
+                options.Audience = "resource_catalog";  // Identity tarafýnda eklediðmiz resource
+                options.RequireHttpsMetadata= false;
+            });
 
 
 
@@ -47,7 +61,8 @@ namespace Services.Catalog
 
             app.UseAuthorization();
 
-
+            app.UseAuthentication();
+   
             app.MapControllers();
 
             app.Run();

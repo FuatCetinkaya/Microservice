@@ -1,2 +1,32 @@
 Services
-	- Services.Catalog : 5011
+	- Services.Catalog : 5011			Database : Mogo Db
+
+
+Identity Server
+	- IdentityServer : 5001				Database MsSql :			sa => Pass : Password12*
+
+
+
+
+
+-----------------------------------------------------
+Identity Server Kurulumu
+-----------------------------------------------------
+Powershell ile "dotnet new -i identityserver4.templates" komutu ile identity server template'leri kurulabilir.
+
+Template Name                                         Short Name  Language  Tags
+----------------------------------------------------  ----------  --------  -------------------
+IdentityServer4 Empty                                 is4empty    [C#]      Web/IdentityServer4
+IdentityServer4 Quickstart UI (UI assets only)        is4ui       [C#]      Web/IdentityServer4
+IdentityServer4 with AdminUI                          is4admin    [C#]      Web/IdentityServer4
+IdentityServer4 with ASP.NET Core Identity            is4aspid    [C#]      Web/IdentityServer4
+IdentityServer4 with Entity Framework Stores          is4ef       [C#]      Web/IdentityServer4
+IdentityServer4 with In-Memory Stores and Test Users  is4inmem    [C#]      Web/IdentityServer4
+
+Daha sonra istenilen template kurulabilir.
+PS C:\TestProjects\Microservice\IdentityServer> : dotnet new is4aspid --name IdentityServer(ProjectName)
+
+Actual command: dotnet run /seed
+Do you want to run this action [Y(yes)|N(no)]? N => Seed kurulumu yapmasýn.
+
+Daha sonra ilgili klasöre Identity Server kurulmuþ oldu. "IdentityServer" klasörüne Existing Project denilerek eklenebilir
