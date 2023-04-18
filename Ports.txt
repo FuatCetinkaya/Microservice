@@ -4,6 +4,9 @@ Services
 	- Services.Basket		: 5013			Database : Redis
 	- Services.Discount		: 5014			Database : Postgres		admin => Pass : Password12*
 
+	- Services.FakePayment	: 5016			
+
+
 
 
 
