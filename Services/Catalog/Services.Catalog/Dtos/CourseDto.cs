@@ -13,8 +13,8 @@ namespace Services.Catalog.Dtos
         public decimal Price { get; set; }
         public string Picture { get; set; }
         public DateTime CreatedTime { get; set; }
-        public Feature Feature { get; set; }
+        public FeatureDto Feature { get; set; }
         public string CategoryId { get; set; }
-        public Category Category { get; set; }
+        public CategoryDto Category { get; set; }
     }
 }

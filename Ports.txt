@@ -9,6 +9,8 @@ Services
 Gateway
 	- Gateway				: 5000
 
+Frontends
+	- Web				: 5010
 
 
 

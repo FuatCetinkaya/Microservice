@@ -9,7 +9,7 @@ namespace Services.Catalog.Dtos
         public string UserId { get; set; }
         public decimal Price { get; set; }
         public string Picture { get; set; }
-        public Feature Feature { get; set; }
+        public FeatureDto Feature { get; set; }
         public string CategoryId { get; set; }
     }
 }

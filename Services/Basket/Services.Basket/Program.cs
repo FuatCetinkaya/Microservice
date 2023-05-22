@@ -15,6 +15,7 @@ namespace Services.Basket
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("Sub"); // Token aldýðýmýzda NameIdentifier olarak gelen bilginin Sub olarak gelmesini saðlar. Çünkü Shared'da Sub olarak mapledik (UserClaim alanlarýnda NameIdentifier alaný Sub olarak gelmiþ oldu)
 
             // +++
             builder.Services.AddHttpContextAccessor();

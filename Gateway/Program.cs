@@ -1,31 +1,53 @@
+using CacheManager.Core; 
+using Gateway.DelegateHandlers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Values;
 
-namespace Gateway
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile($"configuration.{builder.Environment.EnvironmentName.ToString().ToLower()}.json");
+
+
+
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddHttpClient<TokenExhangeDelegateHandler>();
+builder.Services.AddAuthentication().AddJwtBearer("GatewayAuthenticationScheme", options =>
 {
-    public class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+    options.Authority = builder.Configuration["IdentityServerURL"];
+    options.Audience = "resource_gateway";
+    options.RequireHttpsMetadata = false;
+});
 
-            builder.Configuration.AddJsonFile($"configuration.{builder.Environment.EnvironmentName.ToLower()}.json");   //++
+builder.Services.AddOcelot().AddCacheManager(opt =>
+{
+    opt.WithRedisConfiguration("redis",
+                       config =>
+                       {
+                           config.WithAllowAdmin()
+                           .WithDatabase(0)
+                           .WithEndpoint("localhost", 6379);
+                       })
+               .WithJsonSerializer()
+               .WithRedisCacheHandle("redis");
+}).AddDelegatingHandler<TokenExhangeDelegateHandler>();
+
+var app = builder.Build();
 
 
-            builder.Services.AddAuthentication().AddJwtBearer("GatewayAuthenticationSchema", options =>
-            {
-                options.Authority = builder.Configuration["IdentityServerURL"];
-                options.Audience = "resource_gateway";
-                options.RequireHttpsMetadata = false;
-            });
 
-            builder.Services.AddOcelot();   // ++
+app.UseAuthorization();
+await app.UseOcelot();
+app.MapControllers();
 
-            var app = builder.Build();
-
-            await app.UseOcelot();    // ++
-
-            app.Run();
-        }
-    }
-}
+app.Run();
